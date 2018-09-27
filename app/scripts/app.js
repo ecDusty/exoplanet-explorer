@@ -67,8 +67,8 @@ Instructions:
     getJSON('../data/earth-like-results.json')
     .then(function(response){
       addSearchHeader(response.query);
-      response.results.foreach(function(url){
-        getJSON(url).catch(function() {
+      response.results.forEach(function(url){
+        getJSON(url).catch(function(e) {
           throw Error('Search Request Error');
         }).then(createPlanetThumb);
       });
