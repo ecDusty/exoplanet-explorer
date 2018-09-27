@@ -60,9 +60,7 @@ Hint: you'll probably still need to use .map.
     .then(function(response) {
       addSearchHeader(response.query);
 
-      var arrayOfPromises = response.results.map(function(url) {
-        return getJSON(url); 
-      });
+      var arrayOfPromises = response.results.map(getJSON);
       return Promise.all(arrayOfPromises);
     })
     .then(function(aPlanets) {
