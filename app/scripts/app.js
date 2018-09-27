@@ -57,6 +57,10 @@ Instructions:
     });
   }
 
+  function errorReport(e) {
+    console.log(e);
+  }
+
   window.addEventListener('WebComponentsReady', function() {
     home = document.querySelector('section[data-route="home"]');
     /*
@@ -64,8 +68,15 @@ Instructions:
      */
     getJSON('../data/earth-like-results.json')
     .then(function(response) {
+      let sequence = Promise.resolve();
       response.results.forEach(function(url) {
-        getJSON(url).then(createPlanetThumb);
+        if (sequence) {
+          sequence = sequence.then(function(){
+            return getJSON(url);
+          }).then(createPlanetThumb);
+        } else {
+          sequence = getJSON(url).catch(errorReport).then(createPlanetThumb);
+        }
       });
     });
   });
